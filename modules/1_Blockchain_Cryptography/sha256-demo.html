@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Hashing Demo</title>
+    <style>
+        /* Modern, clean styling with a dark theme */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .input-section, .output-section {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e1e1;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .hash-output {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            word-break: break-all;
+            border: 2px solid #e1e1e1;
+        }
+
+        .explanation {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SHA-256 Hash Generator</h1>
+        
+        <div class="input-section">
+            <label for="message">Enter your message:</label>
+            <textarea 
+                id="message" 
+                placeholder="Please type your message here..."
+                autofocus></textarea>
+        </div>
+
+        <div class="output-section">
+            <label>SHA-256 Hash:</label>
+            <div id="hash-output" class="hash-output">
+                [Hash will appear here]
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>How it works:</h3>
+            <p>
+                This demo uses the Web Crypto API to generate SHA-256 hashes. 
+                SHA-256 is a cryptographic hash function that:
+            </p>
+            <ul>
+                <li>Always produces a 256-bit (64 character) hash</li>
+                <li>Generates completely different hashes even for similar inputs</li>
+                <li>Is one-way (you can't derive the input from the hash)</li>
+                <li>Is deterministic (same input always produces same hash)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const messageInput = document.getElementById('message');
+        const hashOutput = document.getElementById('hash-output');
+
+        // Convert ArrayBuffer to hex string
+        function bufferToHex(buffer) {
+            return Array.from(new Uint8Array(buffer))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
+        // Function to compute SHA-256 hash using Web Crypto API
+        async function computeHash(message) {
+            try {
+                // Convert the message string to a Uint8Array
+                const msgBuffer = new TextEncoder().encode(message);
+                
+                // Use the subtle crypto API to compute the hash
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                
+                // Convert the hash to hex string
+                const hashHex = bufferToHex(hashBuffer);
+                
+                return hashHex;
+            } catch (error) {
+                console.error('Error computing hash:', error);
+                return 'Error computing hash';
+            }
+        }
+
+        // Debounce function to limit how often we compute the hash
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Update hash when user types (debounced to improve performance)
+        const updateHash = debounce(async () => {
+            const message = messageInput.value;
+            if (message.trim() === '') {
+                hashOutput.textContent = '[Hash will appear here]';
+                return;
+            }
+            
+            const hash = await computeHash(message);
+            hashOutput.textContent = hash;
+        }, 300); // Wait 300ms after user stops typing before computing hash
+
+        // Add event listener for input changes
+        messageInput.addEventListener('input', updateHash);
+    </script>
+</body>
+</html> 
