@@ -1,0 +1,23 @@
+{
+  "name": "ethereum_bootcamp_alchemy_university",
+  "version": "1.0.0",
+  "description": "ethereum_bootcamp_alchemy_university",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farshadbaharvand/Ethereum_Bootcamp_Alchemy_University.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/farshadbaharvand/Ethereum_Bootcamp_Alchemy_University/issues"
+  },
+  "homepage": "https://github.com/farshadbaharvand/Ethereum_Bootcamp_Alchemy_University#readme",
+  "dependencies": {
+    "ethereum-cryptography": "^3.2.0"
+  }
+}
