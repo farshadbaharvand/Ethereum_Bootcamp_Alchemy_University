@@ -104,3 +104,84 @@ A **hash function** takes an input of any size and returns a **fixed-size output
 - **Cryptographic Hash Functions**: Vital primitive for security, storage, and consensus.
 
 ---
+
+# Public Key Cryptography Cheatsheet
+
+---
+
+## 🔐 Cryptography Historically
+
+- Until the 1970s, cryptography focused on **encrypting messages** to keep them secret.
+- Messages were encrypted by applying simple functions, e.g., shifting letters ("abc" → "bcd").
+- Early encryption was **easy to break** once the secret method was known.
+- Introduction of **secret keys** allowed two parties to agree on a key before communication.
+- This is called **symmetric-key cryptography**: both sides share the same secret key.
+- Cryptography evolved with more complex methods over time.
+
+---
+
+## 🖥️ Personal Computing and New Challenges
+
+- Personal computing raised the problem: How to communicate **securely without prior key exchange**?
+- Meeting in person to exchange keys was impractical.
+- In 1976, **Whitfield Diffie** proposed the idea of a **public key**.
+- Many initially rejected this because keys were meant to be private.
+
+---
+
+## 💡 Thought Experiment: Public and Private Keys
+
+- There exists a **key pair**: a **private key** and a **public key**.
+- Each key can decrypt messages encrypted by the other.
+- Bob publishes his **public key** widely but keeps his **private key** secret.
+
+### Digital Signatures (Proof of Origin)
+
+- Bob **encrypts a message with his private key**.
+- Anyone can decrypt it with Bob's public key.
+- Only Bob could have created the message — **this forms a digital signature**.
+
+### Confidential Messages
+
+- Anyone can encrypt a message using Bob's **public key**.
+- Only Bob can decrypt it with his **private key**.
+- Enables **secure communication without prior key exchange**.
+
+---
+
+## 🔄 Asymmetric Encryption
+
+- Public key cryptography is **asymmetric**:
+  - One key (public) encrypts.
+  - The other key (private) decrypts.
+- Only the owner has access to the private key.
+
+---
+
+## ⚙️ Popular Algorithms: RSA and ECDSA
+
+### RSA (Rivest–Shamir–Adleman)
+
+- Based on the difficulty of **factoring large products of two primes**.
+- Easy to multiply two primes, but hard to factor the product.
+- Security depends on computational hardness (relates to **P vs NP problem**).
+- Widely studied and used in many cryptographic systems.
+
+### ECDSA (Elliptic Curve Digital Signature Algorithm)
+
+- Uses **elliptic curves** for cryptography.
+- Provides the same security with **smaller key sizes** compared to RSA.
+- Used in Bitcoin and many cryptocurrencies (e.g., secp256k1 curve).
+- Popular due to efficiency and strong security.
+
+---
+
+## 📚 Summary
+
+- Cryptography evolved from simple secret-key methods to **asymmetric public-key systems**.
+- Public key cryptography solves the problem of **secure communication without prior key exchange**.
+- Digital signatures provide **proof of message origin and integrity**.
+- RSA and ECDSA are two main algorithms powering modern secure communications and blockchain technology.
+
+---
+
