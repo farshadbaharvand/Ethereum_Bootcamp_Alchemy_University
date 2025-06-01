@@ -1151,13 +1151,187 @@ Bitcoin uses PoW to **secure the network** and validate blocks.
 
 ---
 
+# Blockchain Structure Cheatsheet
+
+Blockchains are fancy databases designed for decentralized systems. Let's explore the key concepts behind blockchain architecture and how it differs from traditional databases.
+
+---
+
+## Blockchain Architecture
+
+A **blockchain** is a **distributed database** made up of a chain of validated blocks. Each block:
+
+- Contains transaction data
+- Is cryptographically linked to the previous block
+
+This creates a **"chain"** of blocks — hence, **blockchain**.
+
+### Nodes
+
+- Nodes are individual computers or devices participating in the blockchain network.
+- Each node stores a copy of the blockchain.
+- No single node has authority — they all function **equally**.
+- This forms a **peer-to-peer (P2P)** network.
+
+---
+
+## Centralized vs Peer-to-Peer
+
+### Centralized Network
+
+- One server maintains the state.
+- All other clients must rely on that central server.
+
+### Peer-to-Peer Network
+
+- No central server.
+- Every node maintains a full copy of the data.
+- Every node can validate and propose changes to the blockchain.
+
+---
+
+## Consensus Mechanism
+
+**Question:**  
+How do distributed nodes agree on valid data **without** a central authority?
+
+**Answer:**  
+They use **consensus mechanisms**.
+
+### Example: Bitcoin
+
+Bitcoin uses **Proof of Work (PoW)**. Nodes (miners) compete to solve a mathematical puzzle. The first to solve it earns the right to add a new block.
+
+This addresses the **Byzantine Generals Problem** — ensuring agreement in a decentralized system with potentially malicious actors.
+
+---
+
+## Blockchain Demo
+
+Visit: [https://blockchaindemo.io](https://blockchaindemo.io)
+
+The demo walks through the creation and structure of a blockchain.
+
+---
+
+## Genesis Block
+
+- The **genesis block** is the **first block** in a blockchain.
+- It has:
+  - `index = 0`
+  - `previous hash = "0"`
+
+---
+
+## Block Structure
+
+Each block stores:
+
+- `index`: position in the chain
+- `timestamp`: creation time (usually in UNIX format)
+- `previous hash`: hash of the previous block
+- `data`: contents of the block (e.g., transactions)
+- `nonce`: number used to find a valid hash
+- `hash`: digital fingerprint of the block (not stored inside the block)
+
+---
+
+## Hashing Function
+
+A **hashing function** takes block data and produces a unique digital fingerprint:
 
 
+**f(index + previousHash + timestamp + data + nonce) = hash**
+
+Example:
+
+f(0 + "0" + 1508270000000 + "Welcome to Blockchain Demo 2.0!" + 604)
+= 000dc75a315c77a1f9c98fb6247d03dd18ac52632d7dc6a9920261d8109b37cf
 
 
+---
+
+## Valid Hash
+
+A **valid hash** is one that meets a set difficulty — often defined by the number of leading zeros.
+
+Example:
+
+- Valid hash must start with `000`
+- More zeros = higher **difficulty**
+
+### Mining
+
+- Miners change the `nonce` until a valid hash is found.
+- This is computationally intensive and called **mining**.
+
+---
+
+## Data Integrity
+
+### Question:  
+How do blockchains ensure data isn't corrupted or tampered with?
+
+### Answer:  
+Because each block’s hash depends on its data, changing the data changes the hash.
+
+Consequences of altering a block:
+
+1. Hash becomes invalid (no longer meets difficulty).
+2. All following blocks break, since their `previous hash` is now incorrect.
+3. Attacker must **re-mine** all subsequent blocks — computationally infeasible.
+
+Example:
+
+Original Genesis Block Hash:
+000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+
+Altered Hash:
+
+eb3e5df5eefceb8950e4a444507ce7df1cc534f54a5113f2792ab64830392db0
 
 
+Mallory would need to:
 
+1. Find a new valid hash for the altered block.
+2. Recalculate and re-mine **every** subsequent block.
+3. Do all of this **faster** than the rest of the network.
 
+Attack fails. ✅ Data integrity holds.
 
+---
+
+## Adding a New Block
+
+To add a new block, the following conditions must be met:
+
+1. `index` is one greater than the previous block.
+2. `previous hash` matches the last block’s hash.
+3. `hash` is correctly calculated.
+4. `hash` meets the difficulty requirement.
+
+---
+
+## Peer-to-Peer Validation
+
+Every node in the P2P network validates each proposed block.
+
+- All nodes apply the same consensus rules.
+- If valid, the block is added to their own copy.
+- All copies remain synchronized without central control.
+
+---
+
+## Conclusion
+
+Blockchains are:
+
+- **Decentralized**
+- **Distributed**
+- **Secure**
+- **Resistant to tampering**
+
+Through consensus mechanisms like Proof of Work and the structure of the chain itself, blockchain maintains data integrity without a central administrator.
+
+---
 
