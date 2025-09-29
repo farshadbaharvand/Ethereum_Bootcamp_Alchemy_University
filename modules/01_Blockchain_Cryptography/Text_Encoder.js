@@ -8,6 +8,7 @@ import readlineSync from 'readline-sync';
 // Get input from user
 const text = readlineSync.question('Enter your text: ');
 
+
 // Convert text to UTF-8 bytes
 const textBytes = utf8ToBytes(text);
 
